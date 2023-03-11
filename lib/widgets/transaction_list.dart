@@ -12,22 +12,24 @@ class TransactionList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: userTransaction.isEmpty
-          ? Column(children: <Widget>[
-              Text(
-                'No transactions added yet!',
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Container(
-                height: 200,
-                child: Image.asset(
-                  'assets/images/waiting.png',
-                  fit: BoxFit.cover,
+          ? LayoutBuilder(builder: (ctx, constraints) {
+              return Column(children: <Widget>[
+                Text(
+                  'No transactions added yet!',
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
-              ),
-            ])
+                const SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  height: constraints.maxHeight * 0.6,
+                  child: Image.asset(
+                    'assets/images/waiting.png',
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ]);
+            })
           : ListView.builder(
               itemBuilder: (BuildContext context, int index) {
                 return Card(
@@ -52,13 +54,21 @@ class TransactionList extends StatelessWidget {
                       ),
                       subtitle: Text(DateFormat("yyyy-MM-dd, H:m")
                           .format(userTransaction[index].date)),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.delete),
-                        color: Colors.red,
-                        onPressed: () {
-                          deleteTx(userTransaction[index].id);
-                        },
-                      )),
+                      trailing: MediaQuery.of(context).size.width > 400
+                          ? TextButton.icon(
+                              icon: const Icon(Icons.delete),
+                              label: const Text('Delete'),
+                              onPressed: () {
+                                deleteTx(userTransaction[index].id);
+                              },
+                            )
+                          : IconButton(
+                              icon: const Icon(Icons.delete),
+                              color: Colors.red,
+                              onPressed: () {
+                                deleteTx(userTransaction[index].id);
+                              },
+                            )),
                 );
                 // return Card(
                 //   child: Row(

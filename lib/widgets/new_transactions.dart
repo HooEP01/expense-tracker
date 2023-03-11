@@ -1,5 +1,7 @@
 import 'dart:ffi';
+import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -52,63 +54,84 @@ class _NewTransactionState extends State<NewTransaction> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      child: Container(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: <Widget>[
-            TextField(
-              decoration: const InputDecoration(labelText: "Title"),
-              controller: titleController,
-              // onSubmitted: (_) => submitData(),
-              // onChanged: (value) => titleInput = value,
-            ),
-            TextField(
-              decoration: const InputDecoration(labelText: "Amount"),
-              controller: amountController,
-              keyboardType:
-                  const TextInputType.numberWithOptions(decimal: true),
-              // onSubmitted: (_) => submitData(),
-              // onChanged: (value) => amountInput = value,
-            ),
-            Container(
-              height: 70,
-              child: Row(
-                children: [
-                  Text(
-                    _selectedDate == null
-                        ? 'No Date Chosen!'
-                        : DateFormat("yyyy-MM-dd").format(_selectedDate),
-                  ),
-                  TextButton(
-                    child: const Text(
-                      'Chosen Date',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
+    return SingleChildScrollView(
+      child: Card(
+        elevation: 2,
+        child: Container(
+          padding: EdgeInsets.only(
+            top: 10,
+            left: 10,
+            right: 10,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 10,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              TextField(
+                decoration: const InputDecoration(labelText: "Title"),
+                controller: titleController,
+                // onSubmitted: (_) => submitData(),
+                // onChanged: (value) => titleInput = value,
+              ),
+              TextField(
+                decoration: const InputDecoration(labelText: "Amount"),
+                controller: amountController,
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
+                // onSubmitted: (_) => submitData(),
+                // onChanged: (value) => amountInput = value,
+              ),
+              Container(
+                height: 70,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      _selectedDate == null
+                          ? 'No Date Chosen!'
+                          : DateFormat("yyyy-MM-dd").format(_selectedDate),
                     ),
-                    onPressed: () {
-                      presentDatePicker();
-                    },
-                  ),
-                ],
+                    Platform.isIOS
+                        ? CupertinoButton(
+                            child: const Text(
+                              'Chosen Date',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            onPressed: () {
+                              presentDatePicker();
+                            },
+                          )
+                        : TextButton(
+                            child: const Text(
+                              'Chosen Date',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            onPressed: () {
+                              presentDatePicker();
+                            },
+                          ),
+                  ],
+                ),
               ),
-            ),
-            ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
-                    Theme.of(context).colorScheme.primary),
-                foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+              ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                      Theme.of(context).colorScheme.primary),
+                  foregroundColor:
+                      MaterialStateProperty.all<Color>(Colors.white),
+                ),
+                child: const Text('Record'),
+                onPressed: () {
+                  submitData();
+                  // print(titleInput + amountInput);
+                },
               ),
-              child: const Text('Record'),
-              onPressed: () {
-                submitData();
-                // print(titleInput + amountInput);
-              },
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
