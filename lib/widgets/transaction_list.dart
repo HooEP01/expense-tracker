@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+
 import '../models/transaction.dart';
-import 'package:intl/intl.dart';
+
+import './transaction_item.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> userTransaction;
@@ -32,44 +34,11 @@ class TransactionList extends StatelessWidget {
             })
           : ListView.builder(
               itemBuilder: (BuildContext context, int index) {
-                return Card(
-                  margin: const EdgeInsets.symmetric(
-                    vertical: 8,
-                    horizontal: 5,
-                  ),
-                  child: ListTile(
-                      leading: CircleAvatar(
-                        radius: 30,
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: FittedBox(
-                            child: Text('RM ${userTransaction[index].amount}'),
-                          ),
-                        ),
-                      ),
-                      title: Text(
-                        userTransaction[index].title,
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                      subtitle: Text(DateFormat("yyyy-MM-dd, H:m")
-                          .format(userTransaction[index].date)),
-                      trailing: MediaQuery.of(context).size.width > 400
-                          ? TextButton.icon(
-                              icon: const Icon(Icons.delete),
-                              label: const Text('Delete'),
-                              onPressed: () {
-                                deleteTx(userTransaction[index].id);
-                              },
-                            )
-                          : IconButton(
-                              icon: const Icon(Icons.delete),
-                              color: Colors.red,
-                              onPressed: () {
-                                deleteTx(userTransaction[index].id);
-                              },
-                            )),
+                return TransactionItem(
+                  userTransaction: userTransaction[index],
+                  deleteTx: deleteTx,
                 );
+
                 // return Card(
                 //   child: Row(
                 //     children: <Widget>[

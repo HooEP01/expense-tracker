@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:real_app/widgets/adaptive_button.dart';
 
 class NewTransaction extends StatefulWidget {
   final Function newTransaction;
@@ -91,29 +92,10 @@ class _NewTransactionState extends State<NewTransaction> {
                           ? 'No Date Chosen!'
                           : DateFormat("yyyy-MM-dd").format(_selectedDate),
                     ),
-                    Platform.isIOS
-                        ? CupertinoButton(
-                            child: const Text(
-                              'Chosen Date',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            onPressed: () {
-                              presentDatePicker();
-                            },
-                          )
-                        : TextButton(
-                            child: const Text(
-                              'Chosen Date',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            onPressed: () {
-                              presentDatePicker();
-                            },
-                          ),
+                    AdaptiveButton(
+                      "Chosen Date",
+                      presentDatePicker,
+                    ),
                   ],
                 ),
               ),
