@@ -1,7 +1,3 @@
-import 'dart:ffi';
-import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:real_app/widgets/adaptive_button.dart';
@@ -9,16 +5,44 @@ import 'package:real_app/widgets/adaptive_button.dart';
 class NewTransaction extends StatefulWidget {
   final Function newTransaction;
 
-  NewTransaction(this.newTransaction, {super.key});
+  NewTransaction(this.newTransaction, {super.key}) {
+    print('Constructor NewTransaction Widget');
+  }
 
   @override
-  State<NewTransaction> createState() => _NewTransactionState();
+  State<NewTransaction> createState() {
+    print('CreateState NewTransaction Widget');
+    return _NewTransactionState();
+  }
 }
 
 class _NewTransactionState extends State<NewTransaction> {
   final titleController = TextEditingController();
   final amountController = TextEditingController();
   DateTime _selectedDate = DateTime.now();
+
+  _NewTransactionState() {
+    print('Constructor NewTransaction State');
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    print('initState()');
+  }
+
+  @override
+  void didUpdateWidget(covariant NewTransaction oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+    print('didUpdateWidget()');
+  }
+
+  @override
+  void dispose() {
+    print('dispose()');
+    super.dispose();
+  }
 
   void submitData() {
     final enteredTitle = titleController.text;
